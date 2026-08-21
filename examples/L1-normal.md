@@ -1,23 +1,23 @@
-# L1｜常规任务示例
+# L1 — Normal engineering example
 
-【任务】
-在现有小型 HTTP 服务中增加一个带输入校验的只读状态端点，并补充对应测试。
+[Task]
+Add a read-only status endpoint with input validation to an existing small HTTP service and add focused tests.
 
-【风险】
-L1；涉及一个模块和路由集成，但没有数据迁移或外部发布。
+[Risk]
+L1; the change touches one module and route integration but does not migrate data or publish to users.
 
-【边界】
-- 沿用现有路由、错误格式和配置方式。
-- 只读端点不得改变业务数据。
-- 不重构无关模块，不引入新的运行时依赖。
+[Boundaries]
+- Follow the existing routing, error format, and configuration conventions.
+- The endpoint must not mutate business data.
+- Do not refactor unrelated modules or add a runtime dependency.
 
-【委派】
-父 Agent 做最小范围确认与最终验收；子 Agent 自行定位实现点、完成改动并运行相关测试。
+[Delegation]
+Parent performs minimal scope confirmation and final acceptance; child locates the implementation points, makes the smallest complete change, and runs focused tests.
 
-【验收】
-- 合法请求返回约定状态结构。
-- 非法输入返回现有错误格式。
-- 相关测试通过，现有窄范围测试无回归。
+[Acceptance]
+- A valid request returns the agreed status shape.
+- Invalid input uses the existing error format.
+- Focused tests pass and show no regression in the nearby test surface.
 
-【回报】
-只返回状态、改动文件、测试结果和未解决风险。
+[Report]
+Return only status, changed files, test results, and unresolved risks.

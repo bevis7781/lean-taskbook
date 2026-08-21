@@ -1,0 +1,6 @@
+interface:
+  display_name: "Lean Taskbook"
+  short_description: "Write lean Codex parent-subagent taskbooks"
+  default_prompt: "Use $lean-taskbook to write a minimal taskbook for this bounded request."
+policy:
+  allow_implicit_invocation: true

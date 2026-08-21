@@ -1,37 +1,65 @@
 # lean-taskbook
 
-Codex-first. Sol + Luna tested.
+[简体中文](README.zh-CN.md)
 
-`lean-taskbook` is a compact taskbook skill for handing bounded AI coding work from a strong parent agent to a lower-cost implementation agent. It keeps the goal, risk, boundaries, delegation, acceptance checks, and concise report in one small brief.
+**Agent Skills compatible. Codex-first. Sol + Luna tested.**
 
-## Version
+`lean-taskbook` writes compact, risk-proportional taskbooks for Codex parent/subagent workflows. It preserves the handoff contract—goal, risk, boundaries, delegation, acceptance, and concise reporting—without pre-solving implementation details.
 
-Current release: `v0.2.2`.
+Current version: `v0.2.3`.
+
+## Use when
+
+- You need a taskbook for a bounded coding or repository task.
+- You are handing work from a strong Codex parent to a lower-cost implementation Agent.
+- You want L0 mechanical, L1 normal, or L2 high-risk scoping with proportionate verification.
+- The user asks for a Codex implementation brief, parent Sol plus child Luna handoff, or cost-aware delegation.
+
+## Don't use when
+
+- The user wants an ordinary answer, explanation, or direct code change.
+- There is no parent/subagent handoff or taskbook to write.
+- The request needs a full project plan rather than a minimal executable brief.
 
 ## Install
 
-Copy `SKILL.md` into the skills directory used by your Codex installation, preserving the filename and its parent skill folder. For a local checkout, the skill can be referenced directly from this repository. No build step or runtime dependency is required.
+### Recommended
 
-## Use
+```bash
+npx skills add bevis7781/lean-taskbook
+```
 
-Invoke the skill when you need a minimal, executable taskbook for a Codex parent/child workflow—for example, when handing a bounded change to a local child agent. The skill classifies work as L0 (mechanical), L1 (ordinary engineering), or L2 (high risk), then keeps delegation and verification proportional to that risk. The included examples show the intended level of abstraction:
+The installer should create a discovered `lean-taskbook` skill directory and preserve `SKILL.md` plus `agents/openai.yaml`.
 
-- `examples/L0-mechanical.md`
-- `examples/L1-normal.md`
-- `examples/L2-high-risk.md`
+### Codex manual installation
 
-The skill is a writing aid and operating rule set; it does not execute changes, replace repository review, or authorize external side effects. For licensing, security, production, privacy, deletion, migration, and other high-impact work, follow the stricter checks described in the skill and your own project controls.
+Clone or download this repository, then copy its contents into one of these locations:
 
-## Acknowledgements
+- Repository-scoped: `<repo-root>/.agents/skills/lean-taskbook/`
+- User-scoped: `~/.agents/skills/lean-taskbook/`
 
-This project preserves ideas and terminology informed by:
+The target directory must contain `SKILL.md` and may also contain `agents/openai.yaml`. Its final directory name must be `lean-taskbook`, matching the frontmatter `name`. Restart Codex if a newly installed skill does not appear.
 
-- [jellydn/my-ai-tools](https://github.com/jellydn/my-ai-tools)
-- [obra/superpowers](https://github.com/obra/superpowers)
-- [ashp15205/vibe-coding-essentials](https://github.com/ashp15205/vibe-coding-essentials)
+## Call it
 
-See [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) for attribution and license notes.
+Invoke it explicitly with `$lean-taskbook`, or ask for a taskbook/parent-subagent handoff and let implicit selection match the description.
 
-## License
+```text
+Use $lean-taskbook to write a minimal taskbook for adding a read-only health endpoint.
+```
 
-This project is licensed under the MIT License. See [LICENSE](LICENSE).
+The skill writes the taskbook in the user's current language by default. It does not execute the work or authorize external side effects; the parent remains responsible for final acceptance.
+
+## Compatibility boundary
+
+This repository follows the Agent Skills format and is Codex-first. It has been tested with Sol + Luna. No support or verification is claimed for other harnesses.
+
+## Examples
+
+- [L0 mechanical](examples/L0-mechanical.md)
+- [L1 normal](examples/L1-normal.md)
+- [L2 high risk](examples/L2-high-risk.md)
+
+## Acknowledgements and license
+
+See [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) for upstream attribution. This project is MIT licensed; see [LICENSE](LICENSE).

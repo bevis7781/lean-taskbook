@@ -1,22 +1,22 @@
-# L0｜机械任务示例
+# L0 — Mechanical example
 
-【任务】
-把现有说明中的一个过时命令替换为当前命令，并保持其余文档不变。
+[Task]
+Replace one obsolete command in an existing guide with the current command and leave the rest of the document unchanged.
 
-【风险】
-L0；单点、可回滚的文档修改。
+[Risk]
+L0; this is a single-point, reversible documentation edit.
 
-【边界】
-- 只修改命令所在的说明文件。
-- 保留原有语气、结构和示例上下文。
-- 不新增依赖，不扩展范围。
+[Boundaries]
+- Edit only the guide section containing the command.
+- Preserve the existing tone, structure, and surrounding example.
+- Add no dependency and do not broaden the scope.
 
-【委派】
-父 Agent 只确认范围并检查 diff；子 Agent 定位、修改并做文档级自检。
+[Delegation]
+Parent confirms scope and reviews the diff; child locates the text, edits it, and performs a documentation self-check.
 
-【验收】
-- 旧命令不再出现在目标段落。
-- 其他段落无无关改动。
+[Acceptance]
+- The obsolete command is absent from the target section.
+- No unrelated paragraph changed.
 
-【回报】
-只返回状态、改动文件和自检结果。
+[Report]
+Return only status, changed file, and self-check result.

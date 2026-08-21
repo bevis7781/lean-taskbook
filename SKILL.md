@@ -1,234 +1,235 @@
 ---
 name: lean-taskbook
-description: >
-  为“云端 Chat → 本地强父 Agent → 便宜子 Agent”的 AI 编程流程生成极简、低成本、可执行的施工任务书。
-  当用户说“下任务书”“给 Codex 施工提示词”“父 Sol + 子 Luna”“省额度施工”“极简任务书”
-  或要求把当前讨论交给本地 Agent 执行时使用。目标是在不牺牲关键正确性的前提下，减少父 Agent 的扫描、
-  推理、重复审计和上下文消耗。不要用于需要直接回答的普通问答。
+description: >-
+  Create minimal, executable taskbooks for Codex parent/subagent workflows.
+  Use when the user asks for a taskbook, a Codex implementation brief, a parent
+  Sol plus child Luna handoff, cost-aware delegation, or an ultra-lean
+  construction prompt, including Chinese triggers such as 下任务书、施工提示词、
+  父 Sol + 子 Luna、省额度施工、极简任务书. Do not use for ordinary questions
+  or direct implementation without a taskbook handoff.
+license: MIT
+compatibility: Agent Skills compatible; Codex-first; Sol + Luna tested. No other harness is claimed as verified.
 metadata:
-  version: "0.2.2"
+  version: "0.2.3"
 ---
 
-# Lean Taskbook｜极简任务书
+# Lean Taskbook
 
-## 核心原则
+Generate the smallest taskbook that remains executable and reliable for a bounded AI coding workflow.
 
-**强模型定义什么不能错；便宜模型负责具体怎么做。**
+## Core principle
 
-任务书不是详细施工教程。默认只传递：
-1. 要达到的结果；
-2. 不能破坏的边界；
-3. 必须验证的事实；
-4. 父子 Agent 的职责。
+The strong model defines what must not be wrong; the lower-cost model handles the concrete implementation.
 
-不要为了“写得完整”把执行 Agent 本可自行发现的信息提前推理一遍。
+A taskbook is not a detailed construction tutorial. By default, pass only:
 
----
+1. The result to achieve.
+2. The boundaries that must not be broken.
+3. The facts that must be verified.
+4. The parent and child Agent responsibilities.
 
-## 1. 先判风险，再决定父 Agent 深度
+Do not pre-reason through implementation details that the execution Agent can discover from the repository.
 
-只分三档。
+## Language
 
-### L0｜机械任务
-典型：单点修复、文档、配置、小范围整理、明确重复操作。
+Write the taskbook in the user's current language by default. Preserve technical names, identifiers, commands, and code as needed.
 
-- 父 Agent 不做全仓扫描。
-- 父 Agent 不设计逐步施工方案。
-- 直接把目标、边界、验证交给便宜子 Agent。
-- 子 Agent 自行定位、修改、自测。
-- 父 Agent 只读 diff / 改动路径 / 测试结果。
+## 1. Classify risk before deciding parent depth
 
-### L1｜普通工程任务
-典型：多文件功能、一般集成、已知模块内调试。
+Use exactly one of these three levels.
 
-- 父 Agent 只做足以确认范围和风险的最小勘察。
-- 具体文件定位、实现路径、测试细节交给子 Agent。
-- 父 Agent 不重复子 Agent 已完成的完整勘察。
-- 验收只覆盖改动面和关键集成点。
+### L0 — Mechanical
 
-### L2｜高风险任务
-满足任一项即可升级：
-- 数据库迁移、历史数据、不可逆修改；
-- 删除/清理大量文件；
-- 鉴权、安全、隐私、密钥；
-- License / 开源合规；
-- 生产部署、支付、共享分支、会影响真实外部用户的发布或外部副作用；
-- 核心架构或共享基础设施变更；
-- 一个错误可能污染后续状态且难以恢复。
+Typical work includes a single-point fix, documentation, configuration, small cleanup, or another explicit repeatable operation.
 
-仅 L2 允许父 Agent 深入：
-- 明确关键不变量；
-- 必要时亲自检查相关核心代码；
-- 设计必须覆盖的故障场景；
-- 独立复核最关键证据。
+- The parent does not perform a repository-wide scan.
+- The parent does not design a step-by-step implementation plan.
+- Delegate the goal, boundaries, and verification to the lower-cost child.
+- The child locates the change, implements it, and self-tests.
+- The parent reviews only the diff, changed paths, and relevant test results.
 
-即使是 L2，也不默认全仓重做一次子 Agent 的工作。
+### L1 — Normal engineering
 
-### Git / GitHub 发布特例
+Typical work includes a multi-file feature, ordinary integration, or debugging within a known module.
 
-个人仓库的普通 commit、push、首次开源发布，默认不因“发布”二字自动升级到 L2。
-通常按 L1 处理，只做与发布直接相关的窄检查，例如：
-- 是否误提交密钥、账号、个人路径或大文件；
-- README / 安装方式是否与实际一致；
-- License 与已知第三方依赖是否存在明显冲突；
-- 最小启动或 smoke test 是否通过。
+- The parent performs only enough reconnaissance to confirm scope and risk.
+- The child handles concrete file discovery, implementation, and focused testing.
+- The parent does not repeat the child's complete reconnaissance.
+- Acceptance covers the changed surface and key integration points.
 
-只有当发布会影响真实外部用户、共享/受保护分支、生产环境、付费服务，或发现许可证/安全高风险时，才升级到 L2。
+### L2 — High risk
 
----
+Upgrade to L2 if any of the following applies:
 
-## 2. 任务书长度预算
+- Database migration, historical data, or an irreversible state change.
+- Bulk deletion or cleanup of many files.
+- Authentication, security, privacy, or secrets.
+- License or open-source compliance.
+- Production deployment, payment, or a real external side effect.
+- Shared or protected branches, or changes affecting real external users.
+- Core architecture or shared infrastructure.
+- An error could contaminate later state and be difficult to recover.
 
-默认追求“最小充分任务书”。
+Only L2 allows the parent to go deep enough to:
 
-- L0：整份任务书目标 ≤ 350 tokens
-- L1：整份任务书目标 ≤ 700 tokens
-- L2：整份任务书目标 ≤ 1200 tokens
-- 除非用户明确要求完整审计/架构设计，否则不要超过 2000 tokens。
+- State critical invariants.
+- Inspect relevant core code when necessary.
+- Design the failure scenarios that must be covered.
+- Independently review the most important evidence.
 
-压缩规则：
+Even for L2, do not automatically redo the child's entire repository investigation.
 
-- 有仓库读取能力时，写文件路径，不粘文件正文。
-- 不复制长聊天历史；只保留当前目标、已冻结决定、关键约束。
-- 不写“背景科普”。
-- 不提前给出执行 Agent 可以自己发现的逐步操作。
-- 不重复同一约束。
-- 不要求长解释、长总结或漂亮报告。
-- 如果缺少的信息可以通过本地仓库勘察得到，把它写成“执行时自行确认”，不要让云端 Chat 先猜。
-- 能从仓库、测试、配置或现有文档确认的信息，不向用户追问。
-- 只有缺失的是会改变目标、产生不可逆后果或需要用户价值判断的决定时，才提问。
+### Git and GitHub publication exception
 
-默认输出行为：
-- 直接输出可复制的任务书；
-- 不解释方法论，不复述长背景；
-- 用户没有要求时，不附加“为什么这样写”的分析。
+A personal repository's ordinary commit, push, or first open-source publication is not automatically L2 merely because it is called a publication. Usually treat it as L1 and perform narrow checks directly related to publication:
 
----
+- No secrets, credentials, personal paths, or oversized unintended files are included.
+- README and installation instructions match the actual repository.
+- The license is compatible with known third-party material.
+- A minimal startup or smoke check passes when appropriate.
 
-## 3. 父 Agent 职责上限
+Upgrade publication work to L2 only when it affects real external users, a shared or protected branch, production, a paid service, or a significant license or security risk.
 
-父 Agent 默认只做五件事：
+## 2. Taskbook length budget
 
-1. 确认目标；
-2. 确认风险等级；
-3. 指定不能破坏的边界/不变量；
-4. 明确调用哪个子 Agent / 模型；
-5. 根据子 Agent 的 diff 与证据做最窄必要验收。
+Aim for the smallest sufficient taskbook:
 
-若当前上下文已经知道已验证的低成本子 Agent，直接使用它；不知道时写“使用当前已验证、总成本最低且能胜任的子 Agent”，不要仅为了询问模型名称阻塞任务。
+- L0: no more than 350 tokens.
+- L1: no more than 700 tokens.
+- L2: no more than 1200 tokens.
+- Unless the user explicitly requests a complete audit or architecture design, do not exceed 2000 tokens.
 
-父 Agent默认不要：
+Compress the taskbook as follows:
 
-- 自己先把整个实现方案想完；
-- 为普通任务扫描整个仓库；
-- 把每一步命令、SQL、代码路径都替子 Agent 设计好；
-- 子 Agent 完成后再完整重做一遍勘察；
-- 因“更稳”无限增加 review；
-- 把低风险任务升级成发布级/事故级流程。
+- When repository access exists, give file paths instead of copying file contents.
+- Do not copy long chat history; retain only the current goal, frozen decisions, and key constraints.
+- Do not add background education.
+- Do not write steps that the execution Agent can discover itself.
+- Do not repeat the same constraint.
+- Do not request a long explanation, long summary, or polished report.
+- If missing information can be discovered by local repository reconnaissance, tell the execution Agent to confirm it rather than asking the user to guess.
+- Do not ask the user for facts that can be confirmed from the repository, tests, configuration, or existing documentation.
+- Ask only when the missing choice could change the goal, create an irreversible consequence, or require the user's value judgment.
 
-如果父 Agent发现自己需要大范围阅读才能继续，优先把“只读勘察”也委派给子 Agent，而不是自己扩张上下文。
+Default behavior is to output a directly copyable taskbook. Do not explain the methodology or repeat long background unless the user asks.
 
----
+## 3. Parent Agent responsibility limit
 
-## 4. 子 Agent 职责
+The parent normally does only these five things:
 
-子 Agent负责：
+1. Confirm the result goal.
+2. Confirm the risk level.
+3. State the boundaries and invariants that must not be broken.
+4. Identify the child Agent or model.
+5. Perform narrow final acceptance based on the child's evidence.
 
-- 在任务边界内定位相关代码；
-- 选择最小完整实现；
-- 修改；
-- 运行与改动相匹配的测试；
-- 检查明显回归；
-- 返回简洁证据。
+If the current context already identifies a validated lower-cost child, use it. Otherwise write "the currently validated, lowest-total-cost child Agent that can do the work"; do not block only to ask for a model name.
 
-必须显式指定子 Agent 模型，避免继承父 Agent 的昂贵模型。不要机械追求单次最便宜；若弱模型会显著增加返工轮数，选择总成本更低、一次成功率更高的已验证模型。
+By default, the parent should not:
 
-同形、独立的小任务应批量交给一个子 Agent；只有写入目标互不重叠且确实能节省时间时才并行。
+- Fully design the implementation before delegation.
+- Perform a full repository scan for an ordinary task.
+- Specify every command, SQL statement, code path, or implementation step for the child.
+- Repeat the child's complete reconnaissance after the child finishes.
+- Expand review indefinitely merely because it seems safer.
+- Turn a low-risk task into a release- or incident-grade process.
 
----
+If proceeding appears to require broad reading, delegate the bounded read-only reconnaissance to the child first instead of expanding the parent's context unnecessarily.
 
-## 5. 验证策略
+## 4. Child Agent responsibility
 
-### 默认顺序
+The child is responsible for:
 
-**子 Agent 自测 → 父 Agent 窄验收 → 有证据再扩大。**
+- Locating the relevant code and files within the task boundary.
+- Choosing the smallest complete implementation.
+- Making the requested changes.
+- Running tests proportionate to the change.
+- Checking obvious regressions.
+- Returning concise evidence.
 
-父 Agent 优先检查：
+Explicitly specify the child model. Do not let it inherit the expensive parent model. Choose the currently validated model with the lowest total cost that can perform the work; do not choose solely by the cheapest single call if weakness would cause materially more rework.
 
-- 实际修改了哪些文件；
-- diff 是否越界；
-- 子 Agent 声称运行的测试是否真的通过；
-- 当前任务最关键的 1–3 个行为是否成立。
+Batch related, same-shaped independent work into one child task. Parallelize only when write scopes are independent and the parallel work genuinely saves time.
 
-不要因为存在完整测试套件，就在每次小修改后默认全跑。
-只有以下情况才扩大验证：
+## 5. Verification strategy
 
-- 改动触及共享核心；
-- 窄测试出现异常；
-- 历史上该区域有回归风险；
-- 当前 Gate / Release 明确要求全套验证；
-- L2 不变量需要更广证据。
+Use this default order:
 
-### 返工上限
+**Child self-test → parent narrow acceptance → broader verification only when triggered.**
 
-第一次验收失败：
-- 给同一执行 Agent 一份**定向纠错任务**，只针对已发现问题。
+The parent should first check:
 
-第二次仍失败：
-- 停止自动循环；
-- 报告证据、未解决项和是否需要升级模型/扩大勘察。
+- Which files were actually changed.
+- Whether the diff stayed within scope.
+- Whether the claimed tests really passed.
+- Whether the task's one to three most important behaviors work.
 
-禁止无上限“修改 → 全审 → 再修改 → 再全审”。
+Do not run the entire test suite by default after every small change. Expand verification only when:
 
----
+- Shared core code was changed.
+- A focused test behaves abnormally.
+- The area has a known regression history.
+- A release gate explicitly requires broader checks.
+- L2 invariants require broader evidence.
 
-## 6. 输出任务书时只使用这个结构
+### Retry limit
 
-除非 L2 确有必要，不增加额外章节。
+If the first acceptance fails, send the same child one targeted correction task focused only on the discovered issue.
+
+If the second attempt still fails:
+
+- Stop the automatic loop.
+- Report the evidence and unresolved issue.
+- State whether a stronger model or broader reconnaissance is needed.
+
+Never run an unlimited modify → review → modify → review cycle.
+
+## 6. Required taskbook structure
+
+Unless L2 genuinely requires additional sections, output only:
 
 ```text
-【任务】
-一句话结果目标。
+[Task]
+One-sentence result goal.
 
-【风险】
-L0 / L1 / L2；一句话说明原因。
+[Risk]
+L0 / L1 / L2; one sentence explaining why.
 
-【边界】
-- 必须保留/不能破坏的内容。
-- 明确禁止的额外改动。
-- 其余实现细节由执行 Agent 自行勘察决定。
+[Boundaries]
+- Content that must remain intact.
+- Explicitly prohibited extra changes.
+- Leave other implementation details to the child Agent's reconnaissance.
 
-【委派】
-父 Agent：只做必要定界与最终窄验收，不展开完整施工。
-子 Agent：<已知时写精确模型；未知时使用当前已验证、总成本最低且能胜任的子 Agent>；负责相关代码勘察、最小实现、自测。
-不要让子 Agent 继承父 Agent 的昂贵模型。
+[Delegation]
+Parent: minimal scoping and final narrow acceptance.
+Child: the explicitly selected, currently validated, lowest-total-cost model; responsible for reconnaissance, implementation, and self-test.
+Do not let the child inherit the parent's expensive model.
 
-【验收】
-列 2–5 条可观察、可验证的完成条件。
-优先窄测试；只有出现风险触发条件才扩大。
+[Acceptance]
+List 2–5 observable completion conditions.
+Prefer focused tests; expand only when a risk trigger requires it.
 
-【回报】
-只返回：
-- 状态
-- 改动文件
-- 测试/验证结果
-- 风险或未解决项
-不要输出长篇施工复盘。
+[Report]
+Return only:
+- Status.
+- Changed files.
+- Tests and verification results.
+- Risks or unresolved items.
+Do not provide a long construction retrospective.
 ```
 
----
+Use the user's current language for the headings and prose unless a specific output language is requested.
 
-## 7. 写任务书前的自检
+## 7. Generation self-check
 
-生成前快速检查：
+Before outputting a taskbook, check:
 
-- 我是不是替子 Agent 想了本应由它自己完成的实现细节？
-- 我是不是让父 Agent 做了不必要的全盘扫描？
-- 验证是否与风险等级匹配，而不是默认最高规格？
-- 是否明确指定了便宜子 Agent 模型？
-- 是否存在重复审计或无限返工循环？
-- 删除任何一句后，会不会影响执行正确性？如果不会，删掉。
+- Did I pre-solve implementation details that the child could discover?
+- Did I make the parent perform unnecessary full-repository reconnaissance?
+- Is the verification level proportional to the risk instead of automatically maximal?
+- Did I explicitly select a lower-cost child model?
+- Did I avoid duplicate audits and unlimited retry loops?
+- Is the current-language rule respected?
+- If I delete any sentence, would execution correctness, safety, or acceptance change? If not, delete it.
 
-最终目标不是“任务书看起来专业”，而是：
-
-**用最少的高价推理，换取足够可靠的执行结果。**
+The objective is sufficient reliability with the least expensive reasoning, not a taskbook that merely looks comprehensive.

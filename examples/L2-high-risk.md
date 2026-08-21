@@ -1,25 +1,25 @@
-# L2｜高风险任务示例
+# L2 — High-risk example
 
-【任务】
-为已有数据表设计并实施可回滚的字段迁移，同时保留历史记录可读性。
+[Task]
+Design and execute a reversible field migration for an existing data table while keeping historical records readable.
 
-【风险】
-L2；涉及历史数据、不可逆风险和生产状态。
+[Risk]
+L2; the work affects historical data and production state and can be difficult to undo.
 
-【边界】
-- 先确认备份、回滚路径、锁定策略和兼容窗口。
-- 迁移必须可重复执行或明确阻止重复执行。
-- 未验证前不得触碰真实生产数据，不得删除旧字段。
-- 父 Agent 独立复核关键不变量与失败场景。
+[Boundaries]
+- Confirm backup, rollback, locking, and compatibility-window requirements before execution.
+- The migration must be repeatable or explicitly reject duplicate execution.
+- Do not touch real production data or remove the old field before verification.
+- Parent independently reviews the critical invariants and failure scenarios.
 
-【委派】
-子 Agent 负责窄范围勘察、最小迁移实现和可控环境测试；父 Agent 负责风险定界、关键代码复核和最终放行判断。
+[Delegation]
+Child performs narrow reconnaissance, the smallest migration implementation, and controlled-environment tests; parent owns risk scoping, critical review, and release authorization.
 
-【验收】
-- 预演数据量、约束和历史读写检查通过。
-- 迁移前后关键计数与抽样内容一致。
-- 回滚演练成功，失败中断不会留下半迁移状态。
-- 生产执行仍需明确授权和独立备份证据。
+[Acceptance]
+- A rehearsal passes volume, constraint, and historical read/write checks.
+- Key counts and sampled contents match before and after migration.
+- Rollback rehearsal succeeds and interruption does not leave a partial migration.
+- Production execution still requires explicit authorization and independent backup evidence.
 
-【回报】
-只返回状态、改动文件、验证证据、回滚结果和剩余风险。
+[Report]
+Return only status, changed files, verification evidence, rollback result, and remaining risks.
