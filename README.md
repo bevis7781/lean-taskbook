@@ -6,7 +6,7 @@
 
 `lean-taskbook` writes compact, risk-proportional taskbooks for Codex parent/subagent workflows. It preserves the handoff contract—goal, risk, boundaries, delegation, acceptance, and concise reporting—without pre-solving implementation details.
 
-Current version: `v0.2.3`.
+Current version: `v0.2.4`.
 
 ## Use when
 

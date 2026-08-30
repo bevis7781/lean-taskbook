@@ -10,7 +10,7 @@ description: >-
 license: MIT
 compatibility: Agent Skills compatible; Codex-first; Sol + Luna tested. No other harness is claimed as verified.
 metadata:
-  version: "0.2.3"
+  version: "0.2.4"
 ---
 
 # Lean Taskbook
@@ -182,6 +182,13 @@ If the second attempt still fails:
 - Report the evidence and unresolved issue.
 - State whether a stronger model or broader reconnaissance is needed.
 
+For infrastructure blockers, if the same class of permission, network, tool, or external-service blocker occurs on two consecutive attempts:
+
+- Stop automatic escalation.
+- The parent Agent must not take over implementation or publishing, and must not invent a new transport path merely to complete the task.
+- Return `BLOCKED`, the completed state, blocking evidence, and the minimum human continuation action.
+- Use a materially different fallback only when the original taskbook already authorized it or the user explicitly approves the escalation.
+
 Never run an unlimited modify → review → modify → review cycle.
 
 ## 6. Required taskbook structure
@@ -204,6 +211,7 @@ L0 / L1 / L2; one sentence explaining why.
 Parent: minimal scoping and final narrow acceptance.
 Child: the explicitly selected, currently validated, lowest-total-cost model; responsible for reconnaissance, implementation, and self-test.
 Do not let the child inherit the parent's expensive model.
+After two consecutive blockers of the same permission/network/tool/external-service class, stop escalation and return `BLOCKED` with completed status, evidence, and the minimum human continuation action; the parent must not take over implementation/publishing or invent a transport, and a materially different fallback requires prior taskbook authorization or explicit user approval.
 
 [Acceptance]
 List 2–5 observable completion conditions.
