@@ -2,18 +2,22 @@
 
 [English](README.md)
 
-**兼容 Agent Skills。Codex-first。已用 Sol + Luna 测试。**
+**兼容 Agent Skills。Codex-first。**
 
 `lean-taskbook` 用于为 Codex 父 Agent/子 Agent 工作流编写精简、按风险分级的任务书。它保留目标、风险、边界、委派、验收和简洁回报这份交接契约，不替执行 Agent 预先设计实现细节。
 
-当前版本：`v0.2.5`。
+当前版本：`v0.2.6`。
+
+## 当前推荐的 OpenAI profile
+
+当前默认的 OpenAI 工作流为：GPT-6 Astra Low 负责 parent/orchestration，GPT-5.6 Luna Max 负责 child/execution。这是路由建议，不是已经完成系统验证的结论。更高 reasoning 档位按任务需要选择，不是 Lean Taskbook 的硬性要求。
 
 ## 适用场景（Use when）
 
 - 需要为有边界的编码或仓库任务写任务书。
 - 需要把任务从强 Codex 父 Agent 委派给低成本执行 Agent。
 - 需要用 L0 机械、L1 常规或 L2 高风险分级，并匹配验证强度。
-- 用户提出“下任务书”“施工提示词”“父 Sol + 子 Luna”或“省额度施工”等请求。
+- 用户提出“下任务书”“施工提示词”“父子 Agent”或“省额度施工”等请求。
 
 ## 不适用场景（Don't use when）
 
@@ -52,7 +56,7 @@ npx skills add bevis7781/lean-taskbook
 
 ## 兼容性边界
 
-本仓库遵循 Agent Skills 格式，定位为 Codex-first，并已用 Sol + Luna 测试。不声称支持或验证其他 Harness。
+本仓库遵循 Agent Skills 格式，定位为 Codex-first。历史记录中曾用 Sol + Luna 完成工作流测试；这不代表当前默认路由。不声称支持或验证其他 Harness。
 
 ## 示例
 

@@ -2,15 +2,15 @@
 name: lean-taskbook
 description: >-
   Create minimal, executable taskbooks for Codex parent/subagent workflows.
-  Use when the user asks for a taskbook, a Codex implementation brief, a parent
-  Sol plus child Luna handoff, cost-aware delegation, or an ultra-lean
-  construction prompt, including Chinese triggers such as 下任务书、施工提示词、
-  父 Sol + 子 Luna、省额度施工、极简任务书. Do not use for ordinary questions
+  Use when the user asks for a taskbook, a Codex implementation brief, a
+  parent/child handoff, cost-aware delegation, or an ultra-lean construction
+  prompt, including Chinese triggers such as 下任务书、施工提示词、父子 Agent、
+  省额度施工、极简任务书. Do not use for ordinary questions
   or direct implementation without a taskbook handoff.
 license: MIT
-compatibility: Agent Skills compatible; Codex-first; Sol + Luna tested. No other harness is claimed as verified.
+compatibility: Agent Skills compatible; Codex-first. Historical record: Sol + Luna tested. Current recommendation: GPT-6 Astra Low parent/orchestration + GPT-5.6 Luna Max child/execution; not yet system-validated.
 metadata:
-  version: "0.2.5"
+  version: "0.2.6"
 ---
 
 # Lean Taskbook
@@ -20,6 +20,10 @@ Generate the smallest taskbook that remains executable and reliable for a bounde
 ## Core principle
 
 The strong model defines what must not be wrong; the lower-cost model handles the concrete implementation.
+
+## Current OpenAI routing recommendation
+
+The taskbook protocol remains model-agnostic. For the current recommended OpenAI profile, use GPT-6 Astra Low for parent/orchestration and GPT-5.6 Luna Max for child/execution. This is a routing recommendation, not a tested or system-validated conclusion. Use higher reasoning levels only when the task requires them; Lean Taskbook does not hard-code a reasoning level or require Astra Medium.
 
 A taskbook is not a detailed construction tutorial. By default, pass only:
 

@@ -2,18 +2,22 @@
 
 [简体中文](README.zh-CN.md)
 
-**Agent Skills compatible. Codex-first. Sol + Luna tested.**
+**Agent Skills compatible. Codex-first.**
 
 `lean-taskbook` writes compact, risk-proportional taskbooks for Codex parent/subagent workflows. It preserves the handoff contract—goal, risk, boundaries, delegation, acceptance, and concise reporting—without pre-solving implementation details.
 
-Current version: `v0.2.5`.
+Current version: `v0.2.6`.
+
+## Current OpenAI profile
+
+The current default OpenAI workflow uses GPT-6 Astra Low for parent/orchestration and GPT-5.6 Luna Max for child/execution. This is a routing recommendation, not a tested or system-validated conclusion. Higher reasoning levels are selected by task need, not required by Lean Taskbook.
 
 ## Use when
 
 - You need a taskbook for a bounded coding or repository task.
 - You are handing work from a strong Codex parent to a lower-cost implementation Agent.
 - You want L0 mechanical, L1 normal, or L2 high-risk scoping with proportionate verification.
-- The user asks for a Codex implementation brief, parent Sol plus child Luna handoff, or cost-aware delegation.
+- The user asks for a Codex implementation brief, parent/child handoff, or cost-aware delegation.
 
 ## Don't use when
 
@@ -52,7 +56,7 @@ The skill writes the taskbook in the user's current language by default. It does
 
 ## Compatibility boundary
 
-This repository follows the Agent Skills format and is Codex-first. It has been tested with Sol + Luna. No support or verification is claimed for other harnesses.
+This repository follows the Agent Skills format and is Codex-first. Historical record: it has been tested with Sol + Luna; this does not define the current default route. No support or verification is claimed for other harnesses.
 
 ## Examples
 
