@@ -70,12 +70,14 @@ Upgrade to L2 if any of the following applies:
 - Core architecture or shared infrastructure.
 - An error could contaminate later state and be difficult to recover.
 
-Only L2 allows the parent to go deep enough to:
+For L2, the parent goes deep enough as needed to:
 
 - State critical invariants.
 - Inspect relevant core code when necessary.
 - Design the failure scenarios that must be covered.
 - Independently review the most important evidence.
+
+At any risk level, the parent may diagnose a failure, take over, or change approach within the existing scope and permissions. The initial scoping and delegation defaults above and below do not block this recovery; expand reading and verification only as the failure evidence requires.
 
 Even for L2, do not automatically redo the child's entire repository investigation.
 
@@ -174,20 +176,14 @@ Do not run the entire test suite by default after every small change. Expand ver
 
 ### Retry limit
 
-If the first acceptance fails, send the same child one targeted correction task focused only on the discovered issue.
+If acceptance fails, use the failure evidence to choose a targeted correction. Reuse the same child when that remains appropriate.
 
-If the second attempt still fails:
+If the same approach fails twice, or another retry has no new evidence or corrective change:
 
-- Stop the automatic loop.
-- Report the evidence and unresolved issue.
-- State whether a stronger model or broader reconnaissance is needed.
-
-For infrastructure blockers, if the same class of permission, network, tool, or external-service blocker occurs on two consecutive attempts:
-
-- Stop automatic escalation.
-- The parent Agent must not take over implementation or publishing, and must not invent a new transport path merely to complete the task.
-- Return `BLOCKED`, the completed state, blocking evidence, and the minimum human continuation action.
-- Use a materially different fallback only when the original taskbook already authorized it or the user explicitly approves the escalation.
+- Stop repeating that approach, not the entire task by default.
+- Escalate the failure evidence and unresolved issue to the parent. The parent may diagnose, take over, or choose another approach within the existing scope and permissions; identify whether a stronger model or broader reconnaissance is needed and respect existing model/provider authorization.
+- Continue only with a concrete evidence-based next step and verification proportionate to the risk. Changing approach does not justify an unlimited retry loop.
+- If no viable authorized next step remains, report the blocker. Obtain user input before expanding scope or permissions, taking an unauthorized irreversible action, or deciding a choice reserved for the user.
 
 Never run an unlimited modify → review → modify → review cycle.
 
@@ -211,7 +207,6 @@ L0 / L1 / L2; one sentence explaining why.
 Parent: minimal scoping and final narrow acceptance.
 Child: the explicitly selected, currently validated, lowest-total-cost model; responsible for reconnaissance, implementation, and self-test.
 Do not let the child inherit the parent's expensive model.
-After two consecutive blockers of the same permission/network/tool/external-service class, stop escalation and return `BLOCKED` with completed status, evidence, and the minimum human continuation action; the parent must not take over implementation/publishing or invent a transport, and a materially different fallback requires prior taskbook authorization or explicit user approval.
 
 [Acceptance]
 List 2–5 observable completion conditions.
