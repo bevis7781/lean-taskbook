@@ -10,7 +10,7 @@ description: >-
 license: MIT
 compatibility: Agent Skills compatible; Codex-first; Sol + Luna tested. No other harness is claimed as verified.
 metadata:
-  version: "0.2.4"
+  version: "0.2.5"
 ---
 
 # Lean Taskbook
